@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en" data-text-size="normal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RailSaathi - Ramanagara Junction Smart Navigation & Accessibility Guide</title>
+  <meta name="description" content="Accessible indoor navigation portal for Ramanagara Railway Station (RMGM), Karnataka. Supporting 4 platforms, 2D blueprint navigation, wheelchair routing, step-free access, and station staff assistance.">
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts: Inter & Indian Scripts (Kannada, Devanagari) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Skip to Main Content Link for Keyboard Accessibility -->
+  <a href="#main-content" class="skip-link" id="skip-to-content-link">Skip to main content</a>
+
+  <!-- Top Announcement / Station Banner -->
+  <aside class="disclaimer-banner" role="region" aria-label="Station Disclaimer">
+    <div class="container disclaimer-content">
+      <span class="disclaimer-badge" id="disclaimer-badge-text">RAILSAATHI PORTAL</span>
+      <p id="disclaimer-text">
+        Ramanagara Junction (RMGM) Smart Indoor Navigation & Accessibility System.
+      </p>
+    </div>
+  </aside>
+
+  <!-- Global Application Header -->
+  <header class="app-header" role="banner">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="14" rx="2"/>
+            <path d="M4 11h16"/>
+            <path d="M12 3v8"/>
+            <path d="M8 19l-2 3"/>
+            <path d="M16 19l2 3"/>
+            <circle cx="8" cy="15" r="1"/>
+            <circle cx="16" cy="15" r="1"/>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <h1 id="app-title">RailSaathi - Ramanagara Junction</h1>
+          <span class="brand-sub" id="app-subtitle">Ramanagara Junction (RMGM) • Indian Railways</span>
+        </div>
+      </div>
+
+      <!-- Quick Accessibility, Backend Status & Language Toolbar -->
+      <div class="header-tools" role="toolbar" aria-label="Accessibility and Language Controls">
+        
+        <!-- Real Backend Server Connection Status Indicator -->
+        <div class="status-indicator-badge" id="backend-status-badge" title="Live connection status to RailSaathi REST API backend server">
+          <span class="status-dot offline" id="backend-dot"></span>
+          <span id="txt-backend-status">Backend Check...</span>
+        </div>
+
+        <!-- 3-Language Multilingual Selector (English, Kannada, Hindi) -->
+        <div class="tool-group">
+          <label for="lang-select" class="sr-only" id="label-lang-select">Select Language</label>
+          <select id="lang-select" class="tool-select" aria-label="Language Selector">
+            <option value="en">English</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="hi">हिंदी (Hindi)</option>
+          </select>
+        </div>
+
+        <!-- High Contrast Mode Toggle -->
+        <button id="btn-toggle-contrast" class="tool-btn" aria-pressed="false" aria-label="Toggle High Contrast Mode">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor"/></svg>
+          <span class="tool-label" id="label-contrast">Contrast</span>
+        </button>
+
+        <!-- Text Size Controls -->
+        <div class="tool-group text-size-group" aria-label="Text Size Controls">
+          <button id="btn-text-decrease" class="tool-btn-sm" aria-label="Decrease Text Size">A-</button>
+          <span id="current-text-size" class="text-size-indicator" aria-live="polite">100%</span>
+          <button id="btn-text-increase" class="tool-btn-sm" aria-label="Increase Text Size">A+</button>
+        </div>
+
+        <!-- Accessibility Settings Panel Button -->
+        <button id="btn-open-a11y" class="tool-btn btn-a11y-primary" aria-label="Open Accessibility Settings Panel">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4" r="2"/><path d="M12 6v6m0 0l-4 6m4-6l4 6M6 9h12"/></svg>
+          <span class="tool-label" id="label-a11y-panel">Accessibility</span>
+        </button>
+
+        <!-- Staff Portal Login Button -->
+        <button id="btn-open-staff-login" class="tool-btn btn-staff-portal" aria-label="Station Staff Login Portal">
+          <span aria-hidden="true">🔑</span>
+          <span class="tool-label" id="label-staff-login">Staff Login</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Tabs (Desktop & Tablet) -->
+  <nav class="desktop-nav" role="navigation" aria-label="Main Sections">
+    <div class="container nav-inner">
+      <button class="nav-tab active" data-target="view-home" id="tab-home">
+        <span class="nav-icon" aria-hidden="true">🏠</span>
+        <span id="tab-text-home">Home</span>
+      </button>
+      <button class="nav-tab" data-target="view-map" id="tab-map">
+        <span class="nav-icon" aria-hidden="true">🗺️</span>
+        <span id="tab-text-map">Navigation & Map</span>
+      </button>
+      <button class="nav-tab" data-target="view-facilities" id="tab-facilities">
+        <span class="nav-icon" aria-hidden="true">🚻</span>
+        <span id="tab-text-facilities">Nearby Facilities</span>
+      </button>
+      <button class="nav-tab" data-target="view-help" id="tab-help">
+        <span class="nav-icon" aria-hidden="true">🆘</span>
+        <span id="tab-text-help">Staff Assistance</span>
+      </button>
+      <!-- Staff Dashboard Tab (Revealed upon successful staff login) -->
+      <button class="nav-tab hidden staff-only-tab" data-target="view-staff" id="tab-staff">
+        <span class="nav-icon" aria-hidden="true">📊</span>
+        <span>Staff Dashboard</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main id="main-content" class="container main-layout" role="main">
+
+    <!-- 1. HOME VIEW -->
+    <section id="view-home" class="app-view active" aria-labelledby="home-heading">
+      <div class="hero-card">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <span aria-hidden="true">📍</span> <span id="hero-station-id">Ramanagara Railway Station (RMGM)</span>
+          </div>
+          <h2 id="home-heading">Welcome to Ramanagara Junction Smart Navigation</h2>
+          <p id="hero-desc">
+            An accessible indoor navigation portal helping all passengers—including wheelchair users, visually or hearing impaired passengers—navigate step-free across all 4 platforms (Platforms 1 to 4), concourses, booking offices, and station facilities.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg" id="btn-home-start-nav">
+              <span aria-hidden="true">🗺️</span> <span id="txt-home-start-nav">Start Navigation</span>
+            </button>
+            <button class="btn btn-secondary btn-lg" id="btn-home-facilities">
+              <span aria-hidden="true">🚻</span> <span id="txt-home-facilities">Find Nearby Facilities</span>
+            </button>
+            <button class="btn btn-outline btn-lg" id="btn-home-assistance">
+              <span aria-hidden="true">🆘</span> <span id="txt-home-assistance">Get Staff Assistance</span>
+            </button>
+          </div>
+        </div>
+        <div class="hero-graphic" aria-hidden="true">
+          <div class="schematic-preview">
+            <div class="preview-platform p1">Platform 1 (Booking Office & Lifts)</div>
+            <div class="preview-track"></div>
+            <div class="preview-platform p2">Platforms 2 & 3 (Island Platform)</div>
+            <div class="preview-track"></div>
+            <div class="preview-platform p4">Platform 4 (Side Platform - SBC)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Profiles / Assistance Modes Selector -->
+      <h3 class="section-title" id="title-assistance-modes">Choose Assistance Mode</h3>
+      <p class="section-subtitle" id="sub-assistance-modes">Tailor directions to your specific mobility or sensory preference.</p>
+
+      <div class="modes-grid" role="radiogroup" aria-label="Assistance Profile Selection">
+        <div class="mode-card active" data-mode="general" tabindex="0" role="radio" aria-checked="true">
+          <div class="mode-icon">🚆</div>
+          <h4 id="mode-title-general">General Passenger Mode</h4>
+          <p id="mode-desc-general">Standard indoor station map, route highlighting, estimated walk times, and step-by-step guidance.</p>
+          <span class="mode-badge" id="badge-general">Active</span>
+        </div>
+
+        <div class="mode-card" data-mode="wheelchair" tabindex="0" role="radio" aria-checked="false">
+          <div class="mode-icon">♿</div>
+          <h4 id="mode-title-wheelchair">Wheelchair Accessible</h4>
+          <p id="mode-desc-wheelchair">Step-free routes using verified ramps and lifts. Automatically avoids all stairs and escalators.</p>
+          <span class="mode-badge" id="badge-wheelchair">Select</span>
+        </div>
+
+        <div class="mode-card" data-mode="visual" tabindex="0" role="radio" aria-checked="false">
+          <div class="mode-icon">👁️</div>
+          <h4 id="mode-title-visual">Visual Assistance Mode</h4>
+          <p id="mode-desc-visual">Screen-reader optimized, high contrast, Web Speech voice navigation, large touch controls, and spoken updates.</p>
+          <span class="mode-badge" id="badge-visual">Select</span>
+        </div>
+
+        <div class="mode-card" data-mode="hearing" tabindex="0" role="radio" aria-checked="false">
+          <div class="mode-icon">👂</div>
+          <h4 id="mode-title-hearing">Hearing Assistance Mode</h4>
+          <p id="mode-desc-hearing">Visual-first step directions, high visibility alerts, visual cues, and silent staff request triggers.</p>
+          <span class="mode-badge" id="badge-hearing">Select</span>
+        </div>
+      </div>
+
+      <!-- Station Conceptual Map Overview Info -->
+      <div class="info-card">
+        <h3 id="title-conceptual-notice">About Station Map Data</h3>
+        <p id="desc-conceptual-notice">
+          This system uses verified schematic layout data based on the official Namma Nakshe blueprint for Ramanagara Railway Station (RMGM). All four platforms (Platforms 1 to 4), footbridges, lifts, waiting halls, and booking offices are mapped.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. ROUTE & MAP VIEW -->
+    <section id="view-map" class="app-view" aria-labelledby="map-heading">
+      <!-- Route Selection Form Bar -->
+      <div class="route-panel-card">
+        <div class="panel-header">
+          <h2 id="map-heading" class="panel-title">Route Finder & Map</h2>
+          <div class="panel-header-actions">
+            <button type="button" id="btn-open-blockage-modal" class="btn btn-sm btn-warning">
+              <span aria-hidden="true">⚠️</span> <span id="txt-btn-report-blockage">Report Blockage</span>
+            </button>
+            <span class="status-chip" id="chip-mode-indicator">General Mode</span>
+          </div>
+        </div>
+
+        <!-- Active Blockage / Reroute Notification Alert Banner -->
+        <div id="blockage-alert-banner" class="alert-banner-warning hidden" role="alert">
+          <strong id="txt-blockage-alert-title">⚠️ Pathway Blockage Reported & Recalculated</strong>
+          <p id="txt-blockage-alert-desc">Pathway reported blocked. Rerouting via alternative step-free path.</p>
+        </div>
+
+        <form id="route-form" class="route-form" onsubmit="return false;">
+          <div class="inputs-row">
+            <!-- Starting Location with GPS & QR Assist Buttons -->
+            <div class="field-group">
+              <div class="label-row">
+                <label for="select-start" id="label-start-point">Starting Point (Current Location)</label>
+                <div class="locate-tools">
+                  <button type="button" id="btn-locate-gps" class="btn-text-action" aria-label="Simulate GPS Indoor Locate">
+                    <span>📡</span> <span id="txt-gps-locate">Locate Me (GPS)</span>
+                  </button>
+                  <button type="button" id="btn-qr-checkpoint" class="btn-text-action" aria-label="Scan Station QR Checkpoint">
+                    <span>📷</span> <span id="txt-qr-checkpoint">Scan QR</span>
+                  </button>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <span class="field-icon" aria-hidden="true">📍</span>
+                <select id="select-start" class="form-control" aria-required="true">
+                  <!-- Filled dynamically by JS -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Swap Locations Button -->
+            <button type="button" id="btn-swap-locations" class="btn-swap" aria-label="Swap Starting Point and Destination">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 16V4M7 4L3 8M7 4l4 4M17 8v12M17 20l4-4M17 20l-4-4"/></svg>
+            </button>
+
+            <!-- Destination Location -->
+            <div class="field-group">
+              <label for="select-dest" id="label-dest-point">Destination</label>
+              <div class="select-wrapper">
+                <span class="field-icon" aria-hidden="true">🏁</span>
+                <select id="select-dest" class="form-control" aria-required="true">
+                  <!-- Filled dynamically by JS -->
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accessibility Routing Preferences Checkboxes -->
+          <div class="routing-options-row">
+            <label class="checkbox-label" for="chk-wheelchair">
+              <input type="checkbox" id="chk-wheelchair">
+              <span class="custom-chk"></span>
+              <span id="lbl-chk-wheelchair">Wheelchair Accessible Route (Lifts & Ramps only)</span>
+            </label>
+
+            <label class="checkbox-label" for="chk-no-stairs">
+              <input type="checkbox" id="chk-no-stairs">
+              <span class="custom-chk"></span>
+              <span id="lbl-chk-no-stairs">Avoid Stairs (No stair climbing)</span>
+            </label>
+
+            <button type="submit" id="btn-find-route" class="btn btn-primary">
+              <span aria-hidden="true">🔍</span> <span id="txt-find-route">Find Route</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Split View Layout: Interactive Map + Directions Box -->
+      <div class="map-and-directions-container">
+
+        <!-- Interactive Map Column -->
+        <div class="map-column">
+          <div class="map-header">
+            <h3 id="title-station-layout">Station Blueprint 2D Indoor Map</h3>
+            <!-- Zoom & Pan Controls -->
+            <div class="map-controls" role="toolbar" aria-label="Map Navigation Controls">
+              <button id="btn-zoom-in" class="btn-map-ctrl" aria-label="Zoom In Map">+</button>
+              <button id="btn-zoom-out" class="btn-map-ctrl" aria-label="Zoom Out Map">-</button>
+              <button id="btn-zoom-reset" class="btn-map-ctrl" aria-label="Reset Map View">Reset</button>
+            </div>
+          </div>
+
+          <!-- Live User Location Status Banner -->
+          <div id="location-status-tag" class="user-location-banner">
+            <span class="location-pulse-dot"></span>
+            <span id="user-location-status-text">🟢 Live Location: Main Entrance / Booking Office</span>
+          </div>
+
+          <!-- 2D SVG Viewport -->
+          <div class="map-viewport" id="map-viewport" tabindex="0" role="region" aria-label="Interactive Ramanagara Station Map Viewport">
+            <svg id="station-svg-map" viewBox="0 0 1000 680" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+                </marker>
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+
+              <g id="map-zoom-group">
+                <!-- Background Base -->
+                <rect x="20" y="20" width="960" height="640" rx="16" fill="var(--map-bg)" stroke="var(--border-color)" stroke-width="2"/>
+
+                <!-- Railway Tracks Schematic -->
+                <g class="map-tracks" stroke="var(--track-color)" stroke-width="4">
+                  <!-- Tracks between Platform 1 and Platform 2/3 -->
+                  <line x1="60" y1="140" x2="940" y2="140" stroke-dasharray="10,6"/>
+                  <line x1="60" y1="190" x2="940" y2="190" stroke-dasharray="10,6"/>
+
+                  <!-- Tracks between Platform 2/3 and Platform 4 -->
+                  <line x1="60" y1="300" x2="940" y2="300" stroke-dasharray="10,6"/>
+                  <line x1="60" y1="350" x2="940" y2="350" stroke-dasharray="10,6"/>
+                </g>
+
+                <!-- Platforms Shapes (Exactly 4 Platforms: P1, P2/P3 Island, P4 Side) -->
+                <g class="map-platforms">
+                  <!-- Platform 1 (Main Station Side) -->
+                  <rect x="100" y="70" width="800" height="45" rx="6" class="plat-rect" id="rect-p1"/>
+                  <text x="500" y="97" class="plat-label">Platform 1 (Main Station Side • UTS Booking Office & Lifts)</text>
+
+                  <!-- Platforms 2 & 3 (Island Platform) -->
+                  <rect x="100" y="220" width="800" height="55" rx="6" class="plat-rect" id="rect-p23"/>
+                  <text x="300" y="253" class="plat-label">Platform 2 ⬅️</text>
+                  <text x="700" y="253" class="plat-label">➡️ Platform 3 (Island Platform)</text>
+
+                  <!-- Platform 4 (Side Platform) -->
+                  <rect x="100" y="380" width="800" height="45" rx="6" class="plat-rect" id="rect-p4"/>
+                  <text x="500" y="407" class="plat-label">Platform 4 (Side Platform • Towards SBC / Bengaluru)</text>
+                </g>
+
+                <!-- Foot Overbridges (FOBs) -->
+                <g class="map-fobs">
+                  <!-- West FOB spanning P1, P2/3, P4 -->
+                  <rect x="180" y="70" width="60" height="355" rx="4" class="fob-rect" />
+                  <text x="210" y="245" class="fob-label" transform="rotate(-90 210 245)">West FOB (Stairs ⚠️ & Lift 🛗)</text>
+
+                  <!-- East FOB spanning P1, P2/3, P4 -->
+                  <rect x="760" y="70" width="60" height="355" rx="4" class="fob-rect" />
+                  <text x="790" y="245" class="fob-label" transform="rotate(-90 790 245)">East FOB (Escalator & Lift 🛗)</text>
+                </g>
+
+                <!-- Station Building / Concourse Block -->
+                <g class="map-concourse">
+                  <rect x="100" y="460" width="800" height="180" rx="12" class="concourse-rect"/>
+                  <text x="500" y="485" class="concourse-title">RAMANAGARA STATION BUILDING & MAIN CONCOURSE</text>
+
+                  <rect x="110" y="500" width="90" height="120" rx="6" class="room-rect"/>
+                  <text x="155" y="560" class="room-label">Parking (West)</text>
+
+                  <rect x="210" y="500" width="130" height="70" rx="6" class="room-rect"/>
+                  <text x="275" y="535" class="room-label">Booking Office / UTS</text>
+                  <text x="275" y="555" class="room-icon">🎫♿</text>
+
+                  <rect x="350" y="500" width="130" height="70" rx="6" class="room-rect"/>
+                  <text x="415" y="535" class="room-label">Station Master / GRP</text>
+                  <text x="415" y="555" class="room-icon">ℹ️👮</text>
+
+                  <rect x="490" y="500" width="130" height="70" rx="6" class="room-rect"/>
+                  <text x="555" y="535" class="room-label">Waiting Halls</text>
+                  <text x="555" y="555" class="room-icon">🪑</text>
+
+                  <rect x="630" y="500" width="150" height="70" rx="6" class="room-rect"/>
+                  <text x="705" y="530" class="room-label">Divyang Toilet & Water</text>
+                  <text x="705" y="555" class="room-icon">🚻🚰♿</text>
+
+                  <rect x="790" y="500" width="90" height="120" rx="6" class="room-rect"/>
+                  <text x="835" y="560" class="room-label">Auto & Taxi Stand</text>
+
+                  <rect x="420" y="600" width="160" height="35" rx="6" class="gate-rect"/>
+                  <text x="500" y="622" class="gate-label">MAIN ENTRANCE / EXIT 🚪</text>
+                </g>
+
+                <!-- Dynamic Render Layers -->
+                <g id="svg-edges-layer"></g>
+                <g id="svg-route-layer"></g>
+                <g id="svg-nodes-layer"></g>
+                <g id="user-location-group"></g>
+              </g>
+            </svg>
+
+            <!-- Node Context Popup -->
+            <div id="node-popup" class="node-popup hidden" role="dialog" aria-label="Location Actions">
+              <h4 id="popup-node-title">Location Name</h4>
+              <p id="popup-node-desc" class="popup-desc">Subtext info</p>
+              <div class="popup-buttons">
+                <button id="btn-popup-set-start" class="btn btn-sm btn-primary">Set as Start</button>
+                <button id="btn-popup-set-dest" class="btn btn-sm btn-secondary">Set as Destination</button>
+              </div>
+              <button id="btn-popup-close" class="popup-close-btn" aria-label="Close popup">×</button>
+            </div>
+          </div>
+
+          <!-- Map Symbol Legend Bar -->
+          <div class="map-legend-bar" role="region" aria-label="Station Map Legend">
+            <span class="legend-item"><span class="legend-dot green"></span> You Are Here</span>
+            <span class="legend-item"><span class="legend-box platform"></span> Platforms 1–4</span>
+            <span class="legend-item"><span class="legend-line walkway"></span> Walkway</span>
+            <span class="legend-item"><span class="legend-line route"></span> Recommended Route</span>
+            <span class="legend-item"><span class="legend-icon">🛗</span> Elevator / Lift</span>
+            <span class="legend-item"><span class="legend-icon">⚠️</span> Staircase</span>
+            <span class="legend-item"><span class="legend-icon">♿</span> Step-Free Access</span>
+            <span class="legend-item"><span class="legend-icon">🚪</span> Entrance / Exit</span>
+          </div>
+
+          <p class="map-help-text" id="map-help-hint">💡 Tip: Click any location node on the 2D map to set it as your Starting Point or Destination.</p>
+        </div>
+
+        <!-- Route Directions & Navigation Column -->
+        <div class="directions-column">
+          <!-- Step-by-Step Directions Card -->
+          <div class="directions-card" id="directions-card">
+            <div class="dir-header">
+              <h3 id="title-route-directions">Route Directions</h3>
+              <div class="dir-meta">
+                <span id="route-distance-tag" class="meta-tag">-- m</span>
+                <span id="route-time-tag" class="meta-tag">-- mins</span>
+              </div>
+            </div>
+
+            <!-- Speech Audio Controls for Visual Mode -->
+            <div id="speech-toolbar" class="speech-toolbar hidden" role="region" aria-label="Audio Guidance Controls">
+              <button id="btn-speech-read-step" class="btn-speech">
+                <span aria-hidden="true">🔊</span> <span id="txt-speech-read">Speak Instruction</span>
+              </button>
+              <button id="btn-speech-read-dest" class="btn-speech-sub">
+                <span aria-hidden="true">🏁</span> <span id="txt-speech-dest">Read Destination</span>
+              </button>
+            </div>
+
+            <!-- Active Navigation Banner -->
+            <div id="nav-active-status" class="nav-status-banner hidden">
+              <span class="pulse-dot"></span>
+              <span id="txt-nav-status">Navigation Active</span>
+            </div>
+
+            <!-- Route Steps Container -->
+            <div id="steps-container" class="steps-container" role="list">
+              <div class="empty-steps-state">
+                <div class="empty-icon">🗺️</div>
+                <h4 id="txt-empty-steps-title">No Route Selected</h4>
+                <p id="txt-empty-steps-desc">Select a starting point and destination above, then click "Find Route" to calculate step-by-step directions.</p>
+              </div>
+            </div>
+
+            <!-- Step Navigation Controls -->
+            <div id="step-nav-controls" class="step-nav-controls hidden">
+              <button id="btn-prev-step" class="btn btn-secondary" disabled>
+                <span aria-hidden="true">⬅️</span> <span id="txt-prev-step">Previous Step</span>
+              </button>
+              <span id="step-counter" class="step-counter">Step 1 of 1</span>
+              <button id="btn-next-step" class="btn btn-secondary">
+                <span id="txt-next-step">Next Step</span> <span aria-hidden="true">➡️</span>
+              </button>
+            </div>
+
+            <!-- Start / Cancel Navigation Action Buttons -->
+            <div id="nav-action-buttons" class="nav-action-buttons hidden">
+              <button id="btn-start-nav" class="btn btn-success btn-lg">
+                <span aria-hidden="true">▶️</span> <span id="txt-start-nav-action">Start Navigation</span>
+              </button>
+              <button id="btn-cancel-nav" class="btn btn-danger btn-lg hidden">
+                <span aria-hidden="true">⏹️</span> <span id="txt-cancel-nav-action">Cancel Navigation</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. NEARBY FACILITIES VIEW -->
+    <section id="view-facilities" class="app-view" aria-labelledby="facilities-heading">
+      <div class="facilities-header-card">
+        <h2 id="facilities-heading">Station Facilities & Amenities</h2>
+        <p id="sub-facilities">Browse verified and demonstration amenities across Ramanagara Junction. Select any facility to navigate directly to it.</p>
+
+        <!-- Search and Filter Bar -->
+        <div class="facilities-filter-bar">
+          <div class="search-box">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="facility-search-input" placeholder="Search facilities (e.g., Washroom, Water, Booking)..." aria-label="Search station facilities">
+          </div>
+
+          <div class="category-pills" role="tablist" aria-label="Facility Categories">
+            <button class="cat-pill active" data-category="all" role="tab" aria-selected="true" id="cat-all">All</button>
+            <button class="cat-pill" data-category="washroom" role="tab" aria-selected="false" id="cat-washrooms">Washrooms</button>
+            <button class="cat-pill" data-category="water" role="tab" aria-selected="false" id="cat-water">Drinking Water</button>
+            <button class="cat-pill" data-category="services" role="tab" aria-selected="false" id="cat-services">Tickets & Help Desk</button>
+            <button class="cat-pill" data-category="waiting" role="tab" aria-selected="false" id="cat-waiting">Waiting Areas</button>
+            <button class="cat-pill" data-category="platforms" role="tab" aria-selected="false" id="cat-platforms">Platforms (1-6)</button>
+            <button class="cat-pill" data-category="transport" role="tab" aria-selected="false" id="cat-transport">Parking & Exits</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Facility Cards Grid -->
+      <div id="facilities-grid" class="facilities-grid" role="region" aria-label="Station Facilities List">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- 4. STAFF ASSISTANCE & HELP VIEW -->
+    <section id="view-help" class="app-view" aria-labelledby="help-heading">
+      <div class="help-grid">
+
+        <!-- Assistance Request Form Card -->
+        <div class="card help-card">
+          <div class="card-header">
+            <span class="card-badge-icon">🆘</span>
+            <h2 id="help-heading" class="card-title">Request Passenger Assistance</h2>
+          </div>
+          <p id="desc-help-form">
+            Passengers requiring wheelchair escort, visual assistance, battery cart, or general station support can request immediate help here.
+          </p>
+
+          <form id="assistance-form" onsubmit="return false;">
+            <div class="field-group">
+              <label for="txt-passenger-name" id="lbl-passenger-name">Passenger Name / Contact Name</label>
+              <input type="text" id="txt-passenger-name" class="form-control" placeholder="Enter your name..." required>
+            </div>
+
+            <div class="field-group">
+              <label for="txt-passenger-phone" id="lbl-passenger-phone">Mobile Phone Number</label>
+              <input type="tel" id="txt-passenger-phone" class="form-control" placeholder="Enter mobile number..." required>
+            </div>
+
+            <div class="field-group">
+              <label for="select-help-type" id="lbl-help-type">Assistance Required</label>
+              <select id="select-help-type" class="form-control" required>
+                <option value="wheelchair" id="opt-help-wheelchair">Wheelchair & Step-Free Escort</option>
+                <option value="visual" id="opt-help-visual">Visual Guidance & Navigation Help</option>
+                <option value="hearing" id="opt-help-hearing">Hearing & Sign Language Support</option>
+                <option value="luggage" id="opt-help-luggage">Luggage / Coolie Assistance</option>
+                <option value="general" id="opt-help-general">General Direction Guidance</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="select-help-location" id="lbl-help-location">Your Current Location inside Station</label>
+              <select id="select-help-location" class="form-control" required>
+                <!-- Filled dynamically by JS -->
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="txt-help-details" id="lbl-help-details">Additional Details / Special Needs</label>
+              <textarea id="txt-help-details" class="form-control" rows="3" placeholder="Specify platform number, train number, or specific assistance required..."></textarea>
+            </div>
+
+            <button type="submit" id="btn-submit-help" class="btn btn-primary btn-block btn-lg">
+              <span aria-hidden="true">📨</span> <span id="txt-submit-help">Submit Assistance Request</span>
+            </button>
+          </form>
+          <p class="form-note" id="note-help-prototype">
+            ⚠️ Station Notice: Assistance requests are saved directly to the RailSaathi backend server and dispatched to the Ramanagara Station Staff Management Portal.
+          </p>
+        </div>
+
+        <!-- Official Contact Details & Emergency Information Card -->
+        <div class="card contact-card">
+          <div class="card-header">
+            <span class="card-badge-icon">📞</span>
+            <h3 id="title-railway-contacts">Station Helplines & Contacts</h3>
+          </div>
+          <p id="desc-railway-contacts">Verified Indian Railways helpline numbers and station contact information.</p>
+
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="contact-icon">📞</div>
+              <div class="contact-details">
+                <strong id="contact-1-title">Indian Railways Helpline — 139</strong>
+                <a href="tel:139" class="contact-number">139</a>
+                <span class="contact-tag" id="tag-contact-1">24/7 All-India Passenger Enquiries & Wheelchair Assistance</span>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">♿</div>
+              <div class="contact-details">
+                <strong id="contact-2-title">Divyangjan Accessible Assistance Desk</strong>
+                <a href="tel:139" class="contact-number">139 (Indian Railways Helpline)</a>
+                <span class="contact-tag" id="tag-demo-unverified">Official helpline for wheelchair & accessibility assistance enquiries</span>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">🚉</div>
+              <div class="contact-details">
+                <strong id="contact-3-title">Station Master Office — Ramanagara Railway Station</strong>
+                <a href="tel:08027271011" class="contact-number">080-27271011</a>
+                <span class="contact-tag" id="tag-contact-3">Platform 1 Station Building</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="a11y-info-box">
+            <h4 id="title-a11y-amenities-mysuru">Accessibility Features at Ramanagara Railway Station</h4>
+            <ul>
+              <li id="feat-1">✔️ Step-free Ramps at Main Entrance and Booking Office</li>
+              <li id="feat-2">✔️ Foot Overbridge (Stairs & Lifts) connecting Platforms 1, 2, 3 & 4</li>
+              <li id="feat-3">✔️ Tactile floor guiding tiles in main concourse</li>
+              <li id="feat-4">✔️ Divyang Accessible Restroom near Platform 1</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. STAFF DASHBOARD VIEW (Staff Only) -->
+    <section id="view-staff" class="app-view" aria-labelledby="staff-heading">
+      <div class="staff-dashboard-card">
+        <div class="panel-header">
+          <div>
+            <h2 id="staff-heading" class="panel-title">📊 Station Master & Staff Management Portal</h2>
+            <p class="panel-sub">Authorized Station Personnel • Ramanagara Junction (RMGM)</p>
+          </div>
+          <button id="btn-staff-logout" class="btn btn-sm btn-danger">Logout Staff</button>
+        </div>
+
+        <div class="staff-tabs">
+          <button class="staff-tab-btn active" id="btn-tab-requests">Passenger Requests (<span id="count-requests">0</span>)</button>
+          <button class="staff-tab-btn" id="btn-tab-blockages">Blockage Reports (<span id="count-blockages">0</span>)</button>
+        </div>
+
+        <!-- Requests Management Panel -->
+        <div id="staff-requests-panel" class="staff-panel">
+          <div class="table-responsive">
+            <table class="staff-table">
+              <thead>
+                <tr>
+                  <th>Ref ID</th>
+                  <th>Passenger</th>
+                  <th>Contact</th>
+                  <th>Type</th>
+                  <th>Location / Platform</th>
+                  <th>Details</th>
+                  <th>Submitted</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-requests-body">
+                <!-- Rendered dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Blockages Management Panel -->
+        <div id="staff-blockages-panel" class="staff-panel hidden">
+          <div class="table-responsive">
+            <table class="staff-table">
+              <thead>
+                <tr>
+                  <th>Report ID</th>
+                  <th>Location Node</th>
+                  <th>Hazard Type</th>
+                  <th>Description</th>
+                  <th>Reported At</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-blockages-body">
+                <!-- Rendered dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile Navigation Bar">
+    <button class="mobile-nav-btn active" data-target="view-home" id="mob-tab-home">
+      <span class="mob-icon" aria-hidden="true">🏠</span>
+      <span id="mob-txt-home">Home</span>
+    </button>
+    <button class="mobile-nav-btn" data-target="view-map" id="mob-tab-map">
+      <span class="mob-icon" aria-hidden="true">🗺️</span>
+      <span id="mob-txt-map">Map</span>
+    </button>
+    <button class="mobile-nav-btn" data-target="view-facilities" id="mob-tab-facilities">
+      <span class="mob-icon" aria-hidden="true">🚻</span>
+      <span id="mob-txt-facilities">Facilities</span>
+    </button>
+    <button class="mobile-nav-btn" data-target="view-help" id="mob-tab-help">
+      <span class="mob-icon" aria-hidden="true">🆘</span>
+      <span id="mob-txt-help">Help</span>
+    </button>
+  </nav>
+
+  <!-- Accessibility Settings Modal -->
+  <div id="modal-a11y" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-a11y-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-a11y-title">♿ Accessibility & Preference Center</h3>
+        <button id="btn-close-a11y" class="modal-close-btn" aria-label="Close settings">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="setting-row">
+          <div class="setting-info">
+            <strong id="set-contrast-title">High Contrast Mode</strong>
+            <p id="set-contrast-desc">Optimizes colors with dark background and vibrant yellow/amber indicators for high visibility.</p>
+          </div>
+          <button id="btn-modal-contrast-toggle" class="toggle-switch" aria-pressed="false">
+            <span class="switch-handle"></span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <strong id="set-text-title">Text Size Adjustment</strong>
+            <p id="set-text-desc">Increase font size for improved readability across all screens.</p>
+          </div>
+          <div class="text-size-buttons">
+            <button class="btn-size-choice" data-size="normal" id="size-btn-normal">Normal</button>
+            <button class="btn-size-choice" data-size="large" id="size-btn-large">Large</button>
+            <button class="btn-size-choice" data-size="xlarge" id="size-btn-xlarge">Extra Large</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <strong id="set-tts-title">Text-to-Speech Voice Guide</strong>
+            <p id="set-tts-desc">Enable automatic browser voice announcements when navigating step-by-step.</p>
+          </div>
+          <button id="btn-modal-tts-toggle" class="toggle-switch" aria-pressed="false">
+            <span class="switch-handle"></span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <strong id="set-motion-title">Reduced Animations</strong>
+            <p id="set-motion-desc">Minimizes smooth scrolling and pulsing route animations.</p>
+          </div>
+          <button id="btn-modal-motion-toggle" class="toggle-switch" aria-pressed="false">
+            <span class="switch-handle"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btn-save-a11y" class="btn btn-primary btn-block">Save Preferences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Staff Login Modal -->
+  <div id="modal-staff-login" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-staff-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-staff-title">🔑 Station Staff Authentication</h3>
+        <button id="btn-close-staff-login" class="modal-close-btn" aria-label="Close login dialog">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Log in with authorized station master credentials to access the staff portal.</p>
+        <form id="form-staff-login" onsubmit="return false;">
+          <div class="field-group">
+            <label for="txt-staff-user">Staff Username</label>
+            <input type="text" id="txt-staff-user" class="form-control" value="staff" required>
+          </div>
+          <div class="field-group">
+            <label for="txt-staff-pass">Password</label>
+            <input type="password" id="txt-staff-pass" class="form-control" value="railway123" required>
+          </div>
+          <button type="submit" id="btn-submit-staff-login" class="btn btn-primary btn-block btn-lg mt-3">Log In to Staff Portal</button>
+        </form>
+        <p class="form-note">Demonstration credentials: Username <code>staff</code> / Password <code>railway123</code></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Station QR Checkpoint Modal -->
+  <div id="modal-qr-checkpoint" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-qr-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-qr-title">📷 Station QR Code Location Checkpoint</h3>
+        <button id="btn-close-qr-modal" class="modal-close-btn" aria-label="Close QR dialog">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Scan or select a station QR checkpoint tag located at station physical landmarks to instantly lock your starting location.</p>
+        <div class="field-group">
+          <label for="select-qr-tag">Select Station QR Tag</label>
+          <select id="select-qr-tag" class="form-control">
+            <option value="entrance">QR-P1-ENTRY (Main Entrance Gate)</option>
+            <option value="ticket">QR-P1-UTS (Booking Office / Ticket Counter)</option>
+            <option value="station_master">QR-P1-SM (Station Master Office)</option>
+            <option value="fob_p1_lift">QR-P1-LIFT (Platform 1 FOB Elevator)</option>
+            <option value="platform2">QR-P23-ISLAND (Platform 2 & 3 Concourse)</option>
+            <option value="platform4">QR-P4-SBC (Platform 4 Side Platform)</option>
+          </select>
+        </div>
+        <button id="btn-apply-qr" class="btn btn-primary btn-block btn-lg mt-3">Lock QR Location</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blockage / Obstacle Reporting Dialog Modal -->
+  <div id="modal-report-blockage" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-blockage-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-blockage-title">⚠️ Report Pathway Blockage / Obstacle</h3>
+        <button id="btn-close-blockage-modal" class="modal-close-btn" aria-label="Close blockage reporting dialog">×</button>
+      </div>
+      <div class="modal-body">
+        <p id="desc-blockage-modal">Report temporary maintenance, wet floors, elevator outages, or crowded obstacles. Reports are submitted directly to the backend API.</p>
+        
+        <form id="form-report-blockage" onsubmit="return false;">
+          <div class="field-group">
+            <label for="select-blockage-node" id="lbl-blockage-node">Select Blocked Location / Pathway</label>
+            <select id="select-blockage-node" class="form-control" required>
+              <!-- Filled dynamically by JS -->
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="select-blockage-type" id="lbl-blockage-type">Blockage / Hazard Type</label>
+            <select id="select-blockage-type" class="form-control" required>
+              <option value="lift_down" id="opt-blk-lift">Elevator Out of Service / Maintenance</option>
+              <option value="stairs_closed" id="opt-blk-stairs">Stairs Closed for Repairs</option>
+              <option value="crowded" id="opt-blk-crowded">Overcrowded Corridor / Temporary Obstacle</option>
+              <option value="cleaning" id="opt-blk-cleaning">Wet Floor / Cleaning in Progress</option>
+            </select>
+          </div>
+
+          <button type="submit" id="btn-submit-blockage" class="btn btn-warning btn-block btn-lg mt-3">
+            <span aria-hidden="true">🚨</span> <span id="txt-submit-blockage">Submit Report to Staff & Auto-Reroute</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assistance Request Confirmation Modal -->
+  <div id="modal-request-confirm" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-req-title">
+    <div class="modal-content text-center">
+      <div class="confirm-icon">✅</div>
+      <h3 id="modal-req-title">Assistance Request Submitted</h3>
+      <p id="modal-req-desc">
+        Your request has been saved to the backend database and dispatched to the Ramanagara Station Master Portal.
+      </p>
+      <div class="alert-banner-warning">
+        <strong>Reference ID: <span id="lbl-req-ref-id">REQ-00000</span></strong>
+        <p>A station assistant will be dispatched to your location. For urgent emergencies, call <a href="tel:08027271011">080-27271011</a> or <a href="tel:139">139</a>.</p>
+      </div>
+      <button id="btn-close-req-confirm" class="btn btn-primary btn-lg mt-3">OK, Understood</button>
+    </div>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
